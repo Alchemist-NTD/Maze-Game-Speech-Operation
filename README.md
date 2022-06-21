@@ -1,19 +1,19 @@
 # Speech Recognition Application in Maze Game
 
 **Nhóm 99:**
+
 **Thành viên: Nguyễn Thành Duy - 17021221**
+
 **Nhiệm vụ: Triển khai toàn bộ dự án**
 
 ## 1. Mô tả chung
 Dự án này có mục đích ứng dụng các lý thuyết, phương pháp trong Xử Lý Tiếng nói để xây dựng Engine nhận diện tiếng nói theo khẩu lệnh để điểu khiển nhân vật trong game Mê cung (Maze). Từ đó, đưa ra các ý tưởng nhiều triển vọng trong việc ứng dụng vào lĩnh vực Robotics.
-<p align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/E0sVSDG_yYQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</p>
+[![Video mô tả chung](../Material/preview.jpg)](https://www.youtube.com/watch?v=E0sVSDG_yYQ)
 
 ## 2. Mô tả chức năng của ứng dụng
 ### a. Giao diện, chức năng Game và chuyển động
 <p align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/hjo2mNOM9FA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/hjo2mNOM9FA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </p>
 - Game được xây dựng với nhân vật gọi là Agent.
 - Game được xây dựng với Graphic 2D, mỗi màn chơi là một mê cung có kích cỡ 24 cột và 15 hàng.
@@ -61,36 +61,57 @@ $$Hop Size = 512$$
 #### a.2. Trích chọn đặc trưng MFCCs
 - Đầu tiên ta sẽ lấy tín hiệu ban đầu để scale lại về center, sau đó sẽ làm dẹt lại 2 đầu bằng cách nhân tín hiệu với hàm cửa sổ hann.
 - Biến đổi tín hiệu thành phổ Spectrum bằng Discrete Fast Fourier Transform, Spectrum có 2 chiều là tần số $Hz$ và biên độ phổ $dB$
-![Discrete Fourier Transform](../Maze-Game-Speech-Operation/Material/dfft.webp)
+![Discrete Fourier Transform](../Material/dfft.webp)
 - Mục đích tiếp theo của trích chọn là lấy được Spectral Envelopes của các dominant frequency. Gọi spectrum là $X\[k\]$ có 2 thành phần là spectral envelopes $H\[k\]$ và spectral details $E\[k\]$. Để tách được $H\[k\]$, ta cần phải lấy Log để đưa về thang Mel và lấy đi phần low frequency.
+
 $$X\[k\] = H\[k\] * E\[k\]$$
+
 $$\implies log(X\[k\]) = log(H\[k\]) + log(E\[k\])$$
-![Spectra Envelopes](../Maze-Game-Speech-Operation/Material/spectra_envelopes.webp)
+
+![Spectra Envelopes](../Material/spectra_envelopes.webp)
+
 - Sau đó ta áp dụng các bộ lọc Mel-Frequency Filter Banks để gộp một số dominant frequency trong một khoảng vào với nhau lấy 1 con số đại diện, trong đó các filter bank là các hàm tam giác nối chân nhau.
+
 $$m = 2595 * log(1 + \frac{f}{700})$$
-$$f = 700 (10^{\frac{m}{2595} - 1})$$
+
+$$f = 700 (10^{\frac{m}{2595}} - 1)$$
+
 Mỗi filter bank là các phương trình có dạng:
+
 $H_m(k) = 0$ if $k < f(m - 1)$
+
 $H_m(k) = \frac{k - f(m - 1)}{f(m) - f(m - 1)}$ if $f(m - 1) \leqslant k < f(m)$
+
 $H_m(k) = 1$ if $k = f(m)$
+
 $H_m(k) = \frac{f(m + 1) - k}{f(m + 1) - f(m)}$ if $f(m - 1) < k \leqslant f(m)$
+
 $H_m(k) = 0$ if $k > f(m + 1)$
-![Mel Filter Banks](../Maze-Game-Speech-Operation/Material/mel-filter-banks.webp)
+
+![Mel Filter Banks](../Material/mel-filter-banks.webp)
+
 - Tiếp theo trên nguyên tắc ta sẽ sử dụng Inverse Fast Fourier Transform trên logarithm của spectrum tuy nhiên thay vì thế ta sử dụng Discrete Cosine Transform (1 dạng của IFFT), sau đó lấy 12 hệ số, đầu ra của pha này là cepstrum có chiều giống như speech signal với chiều ngang là trục thời gian và chiều dọc là trục các hệ số MFCCs (MFCCs Coefficients).
 - Lấy trung bình biên độ của tín hiệu ban đầu trước khi DFFT để làm đặc trưng thứ 13.
 - Sử dụng phương pháp normalize bằng Ceptrals mean Vector Normalization (CMVN) bằng cách lấy 13 hệ số trừ đi trung bình của chúng.
 - Tiếp tục lấy Gradient cấp 2 và cấp 3 của Vector có 13 hệ số ban đầu, ta sẽ có mẫu cuối cùng là ma trận có kích cỡ $(39, d)$ với $d$ phụ thuộc vào độ dài ngắn của mẫu tín hiệu được đưa vào. Ở đây có một điều đáng chú ý trong thực nghiệm là nếu normalize bằng Z-score sẽ cho kết quả không tốt trong phân loại.
 - Vì chiều của các ma trận hệ số MFCCs sẽ khác nhau ở số cột nên ta sẽ không thể đưa vào mạng neuron trực tiếp. Trong quá trình thực nghiệm, quả thực có 2 phương pháp đã được triển khai thử là đệm các zeros vào trước và sau tín hiệu để các tín hiệu có cùng độ dài như nhau tuy nhiên sẽ làm kết quả trở nên rất kém, cách làm khác là đệm zeros vào đằng sau chiều thời gian của 39 hệ số MFCCs cũng cho kết quả rất tồi. CMVN là phương pháp Normalize tốt nhất trong dự án này.
+
 **Tóm lại quy trình: speech signal $\rightarrow$ spectrum $\rightarrow$ mel-filter $\rightarrow$ cepstral**
 
 ### b. Sử dụng phương pháp phân loại Dynamic Time Warping
 - Kích cỡ của bộ từ vựng phân loại là nhỏ nên Dynamic Time Warping là một phương pháp tốn ít chi phí thực hiện về thời gian và tinh chỉnh, kiểm định chất lượng.
 - Có thể thấy rõ ràng trong lúc trích chọn 39 MFCCs Coefficient, các samples có thể không có cùng kích cỡ về chiều thời gian giống như nhau thậm chí ngay cả trong cùng một lớp. Ta không thể coi mọi thời gian trong đặc trưng tín hiệu có ảnh hưởng như nhau, không thể tính trực tiếp bằng norm L2. Dẫn đến một phương pháp để align từng điểm rời rạc của 2 tín hiệu, đầu ra của phương pháp này có thể là dạng 1 vector (each in 39s) hoặc quy đổi trực tiếp về L2. Tức là khi thực hiện Dynamic Time Warping, ta sẽ coi mỗi điểm dữ liệu trên 2 trục alignment là một điểm có 39s chiều ứng với 39 hệ số MFCCs.
-![Dynamic Time Warping](../Maze-Game-Speech-Operation/Material/DTW.png)
+
+![Dynamic Time Warping](../Material/DTW.png)
+
 - Ở điểm khởi đầu, ta sẽ có 3 cách để tiến hành đi tới gióng hàng với điểm tiếp theo trên trục còn lại, tức là ta có thể đi lên trên, sang phải hoặc đi chéo. Ta sẽ lấy min distance trong 3 phương án đó. Trong lúc thực hành, dự án này đã từng thực thi phương pháp giới hạn cửa số gióng hàng, nó giống soft-margin trong SVM tuy nhiên kết quả kém khiến kế hoạch phá sản. Việc giải những tối ưu khoảng cách theo đơn vị each point by each point sẽ dẫn đến một path tối ưu để gióng hàng toàn bộ 2 samples ma trận hệ số MFCCs. Tư tưởng của thuật toán này chính là quy hoạch động với từng bài toán nhỏ là những bài toán chênh lệch 1 bước alignment đối với bài toán gốc.
-![Dynamic Time Warping](../Maze-Game-Speech-Operation/Material/DTW2.jpg)
+
+![Dynamic Time Warping](../Material/DTW2.jpg)
+
 - Tuy nhiên, việc tính toán Dynamic time warping với một tập alignment samples quá lớn sẽ không bảo tính hiệu quả về hiệu năng xử lý khi áp dụng thực tế, chính vì thế phải có cơ chế chọn ra n-best samples theo một số bài báo về thuật toán Dynamic Time Warping. Tức ở mỗi lớp từ vững, ta sẽ chọn ra n samples tốt có ảnh hưởng lớn đến kết quả cross validation của phân loại từ. Cụ thể trong dự án này, để chọn ra 15 samples mỗi lớp từ để đưa vào sử dụng trong thực tế, một cơ chế xếp hạng các mẫu đã được đưa ra: mỗi khi một sample trong tập training có distance phân loại bé nhất trong DTW với một sample trong tập test, nó sẽ được cộng vào $(+1)$ điểm rank point nếu có cùng nhãn, phạt $(-1.5)$ rank point nếu khác nhãn với sample trong test.
+
 Kết quả của lần traning với policy điểm rank như trên để chọn ra 15 mẫu có ảnh hưởng nhất với kết quả phân loại $(test size = 1203)$:
+
 **Classification report:**
 
               precision    recall  f1-score   support
@@ -103,10 +124,12 @@ Kết quả của lần traning với policy điểm rank như trên để chọ
     accuracy                           0.99      1203
    macro avg       0.99      0.99      0.99      1203
 weighted avg       0.99      0.99      0.99      1203
+
 **Confussion matrix:**
-![confussion matrix with typycal samples](../Maze-Game-Speech-Operation/Material/conf_mat_1.png)
+![confussion matrix with typycal samples](../Material/conf_mat_1.png)
 
 Chọn ra 15 samples tốt nhất ở mỗi lớp từ để đánh giá lần 2:
+
 **Classification report:**
               precision    recall  f1-score   support
 
@@ -118,14 +141,17 @@ Chọn ra 15 samples tốt nhất ở mỗi lớp từ để đánh giá lần 2
     accuracy                           0.92      1203
    macro avg       0.92      0.92      0.92      1203
 weighted avg       0.93      0.92      0.92      1203
+
 **Confussion matrix:**
-![confussion matrix with typycal samples](../Maze-Game-Speech-Operation/Material/conf_mat_2.png)
+
+![confussion matrix with typycal samples](../Material/conf_mat_2.png)
 
 Nhận xét: Nhìn chung ta sẽ đánh đổi chất lượng có thể chấp nhận được trong bài toán phân loại để lấy được một thời gian xử lý phù hợp với thực tế ứng dụng.
 
 ### c. Đưa Speech Engine vào ứng dụng
 - Control flow của Speech Engine sẽ theo một quy trình chuẩn như sau:
-![SPEECH ENGINE FLOW ACTIONs](../Maze-Game-Speech-Operation/Material/speech_engine_flow.png)
+
+![SPEECH ENGINE FLOW ACTIONs](../Material/speech_engine_flow.png)
 
 ## 5. Kết luận
 - Speech Engine đã hoạt động một cách khá tốt trong các lần chạy thử ứng dụng chứng tỏ các sapmles điển hình có tính tổng quát tốt trong thực tiễn.
@@ -136,5 +162,5 @@ Nhận xét: Nhìn chung ta sẽ đánh đổi chất lượng có thể chấp 
 
 ## **Chạy thực nghiệm ứng dụng**
 <p align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/GsEGt_5hfS4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/GsEGt_5hfS4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </p>
