@@ -9,7 +9,7 @@
 ## 1. Mô tả chung
 Dự án này có mục đích ứng dụng các lý thuyết, phương pháp trong Xử Lý Tiếng nói để xây dựng Engine nhận diện tiếng nói theo khẩu lệnh để điểu khiển nhân vật trong game Mê cung (Maze). Từ đó, đưa ra các ý tưởng nhiều triển vọng trong việc ứng dụng vào lĩnh vực Robotics.
 
-[![Video mô tả chung](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)]([Material/p1.mp4](https://user-images.githubusercontent.com/76658438/174885408-499e0705-7a24-4cd1-8eb7-6caf06d2dc62.mp4))
+[![Video mô tả chung](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174885408-499e0705-7a24-4cd1-8eb7-6caf06d2dc62.mp4)
 
 ## 2. Mô tả chức năng của ứng dụng
 ### a. Giao diện, chức năng Game và chuyển động
