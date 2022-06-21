@@ -14,7 +14,7 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 ## 2. Mô tả chức năng của ứng dụng
 ### a. Giao diện, chức năng Game và chuyển động
 
-[![Chức năng](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://www.youtube.com/watch?v=hjo2mNOM9FA)
+[![Chức năng](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174885979-921cb758-24d7-48c5-bd8a-93f61356b322.mp4)
 
 - Game được xây dựng với nhân vật gọi là Agent.
 - Game được xây dựng với Graphic 2D, mỗi màn chơi là một mê cung có kích cỡ 24 cột và 15 hàng.
@@ -25,7 +25,7 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 
 ### b. Nguyên Lý Điều khiển Agent
 
-[![Controller](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://www.youtube.com/watch?v=dRtJXVVrKPQ&t=1s)
+[![Controller](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886054-0e59e198-8c45-43c1-a25d-aa60be0dda6f.mp4)
 
 - Mọi hành động của Agent trong màn chơi sẽ chỉ được điều khiển bằng tiếng nói với các khẩu lệnh như **"Lên", "Xuống", "Trái", "Phải"**.
 - Để điều khiển bằng tiếng nói, người chơi sẽ nhấn phím tắt **SPACE** để đọc khẩu lệnh. Nếu trong **1.5** giây sau khi nhấn **SPACE** người chơi không đọc khẩu lệnh nào thì Agent sẽ không có hành động.
@@ -34,7 +34,7 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 
 ## 3. Mô tả về dữ liệu
 
-[![Data Description](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://www.youtube.com/watch?v=FCcXYKdVFVo)
+[![Data Description](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886123-281ee8cd-4220-4c64-a924-8bf795f99101.mp4)
 
 - Dữ liệu huấn luyện được lấy trực tiếp từ các file thu và gán nhãn khẩu lệnh âm thanh của 10 người khác nhau trong course Xử Lý tiếng nói. Các khẩu lệnh ban đầu gồm có tập hợp các từ đơn: "lên", "xuống", "trái", "phải", "A", "B", "nhảy", "bắn", tuy nhiên trong phạm vi dự án này chỉ trích lọc để sử dụng với 4 từ đơn là **"Lên", "Xuống", "Trái", "Phải"**.
 - Tổng kích cỡ của dữ liệu là 4811 mẫu, tuy nhiên, để áp dụng vào thực tế ứng dụng thì không thể dùng toàn bộ các mẫu mà chỉ sử dụng một số lượng mẫu nhất định để đảm bảo hiệu suất xử lý cho ứng dụng (nearly Realtime).
@@ -163,4 +163,4 @@ Nhận xét: Nhìn chung ta sẽ đánh đổi chất lượng có thể chấp 
 
 ## **Chạy thực nghiệm ứng dụng**
 
-[![Ingame Experience](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://www.youtube.com/watch?v=GsEGt_5hfS4&t=1s)
+[![Ingame Experience](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886315-f3346167-b5b3-4ac5-93c4-9a2656ed881e.mp4)
