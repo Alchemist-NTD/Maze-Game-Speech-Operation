@@ -8,6 +8,7 @@
 
 ## 1. Mô tả chung
 Dự án này có mục đích ứng dụng các lý thuyết, phương pháp trong Xử Lý Tiếng nói để xây dựng Engine nhận diện tiếng nói theo khẩu lệnh để điểu khiển nhân vật trong game Mê cung (Maze). Từ đó, đưa ra các ý tưởng nhiều triển vọng trong việc ứng dụng vào lĩnh vực Robotics.
+
 [![Video mô tả chung](../Material/preview.jpg)](https://www.youtube.com/watch?v=E0sVSDG_yYQ)
 
 ## 2. Mô tả chức năng của ứng dụng
@@ -41,7 +42,7 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 
 ## 4. Mô tả phương pháp sử dụng trong core (Speech Engine)
 <p align="center">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ZdeAOv02dZU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/ZdeAOv02dZU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </p>
 
 ### a. Trong nghiên cứu notebook
@@ -126,7 +127,7 @@ Kết quả của lần traning với policy điểm rank như trên để chọ
 weighted avg       0.99      0.99      0.99      1203
 
 **Confussion matrix:**
-![confussion matrix with typycal samples](../Material/conf_mat_1.png)
+![confussion matrix with typycal samples](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/conf_mat_1.png)
 
 Chọn ra 15 samples tốt nhất ở mỗi lớp từ để đánh giá lần 2:
 
