@@ -42,7 +42,7 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 
 ## 4. Mô tả phương pháp sử dụng trong core (Speech Engine)
 
-[![Speach Engine](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://www.youtube.com/watch?v=ZdeAOv02dZU)
+[![Speach Engine](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.png)](https://www.youtube.com/watch?v=ZdeAOv02dZU)
 
 ### a. Trong nghiên cứu notebook
 #### a.1. Xử lý tín hiệu âm thanh
