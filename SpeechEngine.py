@@ -2,6 +2,44 @@ import librosa
 import sounddevice as sd
 import numpy as np
 from dtw import dtw
+import tensorflow as tf
+
+
+def padd_z(y):
+    print(y.shape[0])
+    z_rate = 19203 - y.shape[0]
+    print(np.concatenate([np.zeros((int(z_rate / 2))),
+                           y, np.zeros((int(z_rate / 2)))]) if z_rate % 2 == 0 else\
+        np.concatenate([np.zeros((int(z_rate / 2) + 1)), np.reshape(y, (-1)), np.zeros((int(z_rate / 2)))]).shape)
+    return np.concatenate([np.zeros((int(z_rate / 2))),
+                           y, np.zeros((int(z_rate / 2)))]) if z_rate % 2 == 0 else\
+        np.concatenate([np.zeros((int(z_rate / 2) + 1)), np.reshape(y, (-1)), np.zeros((int(z_rate / 2)))])
+
+
+def model_load():
+    return tf.keras.models.load_model('./Audio Processing/nn_speech')
+
+
+def model_predict(model, data):
+    # data has shape (1, 1482)
+    respond = model.predict(np.reshape(data, (1, -1)))[0]
+    num_pred, prob = np.argmax(respond), np.max(respond)
+    print(prob)
+    if num_pred == 0:
+        return 'trai', prob
+    elif num_pred == 1:
+        return 'phai', prob
+    elif num_pred == 2:
+        return 'len', prob
+    return 'xuong', prob
+
+
+def get_operation_nn(model):
+    arr_data = get_signal_nn()
+    if np.max(np.abs(librosa.amplitude_to_db(arr_data.reshape((-1))))) >= 100:
+        return 'none'
+    return model_predict(model, get_mfcc(padd_z(librosa.effects.trim(arr_data.reshape((-1)),
+                                                 top_db=26)[0]), 22050))
 
 
 def get_operation(train_set_x, train_set_y):
@@ -17,6 +55,16 @@ def get_signal():
     duration = 1.5  # seconds
     print('Hearing...')
     mydata = sd.rec(int(samplerate * duration), samplerate=samplerate, channels=1, blocking=True)
+    print('Processing...')
+    return mydata
+
+
+def get_signal_nn():
+    samplerate = 22050  # Hertz
+    duration = 1  # seconds
+    print('Hearing...')
+    mydata = sd.rec(int(samplerate * duration), samplerate=samplerate, channels=1)
+    sd.wait()
     print('Processing...')
     return mydata
 

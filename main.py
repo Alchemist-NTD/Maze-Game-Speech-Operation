@@ -23,6 +23,7 @@ pygame.display.set_caption('Mystery Maze')
 
 # training set for alignment loader
 train_set_x, train_set_y = SpeechEngine.prepare_tools()
+model = SpeechEngine.model_load()
 
 # init the game
 game = 1
@@ -80,6 +81,45 @@ button_quit = Button.Button("EXIT", (WINDOWWIDTH // 2 - button_center.get_size()
                                             WINDOWHEIGHT // 2 - button_center.get_size()[1] // 2 + ROW_SEP * 1),
                              font=30, bg="navy", feedback="EXITING...")
 
+# button choose mode 1
+button_center.change_text("MODE 1")
+button_mode1 = Button.Button("MODE 1", (WINDOWWIDTH // 2 - button_center.get_size()[0] // 2 + 1,
+                                            WINDOWHEIGHT // 2 - button_center.get_size()[1] // 2 + ROW_SEP * 0),
+                             font=30, bg="navy", feedback="...")
+
+
+# button choose mode 2
+button_center.change_text("MODE 2")
+button_mode2 = Button.Button("MODE 2", (WINDOWWIDTH // 2 - button_center.get_size()[0] // 2 + 1,
+                                            WINDOWHEIGHT // 2 - button_center.get_size()[1] // 2 + ROW_SEP * -1),
+                             font=30, bg="navy", feedback="...")
+
+mode = 0
+while True:
+    if mode != 0:
+        break
+    DISPLAYSURF.fill((0, 0, 0, 0))
+    bgr = Background1
+    # choose mode
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+        if button_mode1.click(event):
+            mode = 1
+        if button_mode2.click(event):
+            mode = 2
+        if button_quit.click(event):
+            pygame.quit()
+            sys.exit()
+    DISPLAYSURF.blit(bgr, (0, 0))
+    button_mode1.show(DISPLAYSURF)
+    button_mode2.show(DISPLAYSURF)
+    button_quit.show(DISPLAYSURF)
+    pygame.display.update()
+    fpsClock.tick(FPS)
+
+# when in choose mode
 while True:
     bgr = None
     # when in main menu
@@ -152,6 +192,34 @@ while True:
                     move_queue = 10
 
                 up, down, left, right = False, False, False, False
+                if mode == 2:
+                    operation = SpeechEngine.get_operation_nn(model)[0]
+                    if operation == 'none':
+                        pass
+                    elif operation == 'trai':
+                        player.go_left()
+                        if game_board.can_move(player.col - 1, player.row):
+                            player.col -= 1
+                            move_queue = 25
+                            up, down, left, right = False, False, True, False
+                    elif operation == 'phai':
+                        player.go_right()
+                        if game_board.can_move(player.col + 1, player.row):
+                            player.col += 1
+                            move_queue = 25
+                            up, down, left, right = False, False, False, True
+                    elif operation == 'len':
+                        player.go_up()
+                        if game_board.can_move(player.col, player.row - 1):
+                            player.row -= 1
+                            move_queue = 40
+                            up, down, left, right = True, False, False, False
+                    elif operation == 'xuong':
+                        player.go_down()
+                        if game_board.can_move(player.col, player.row + 1):
+                            player.row += 1
+                            move_queue = 40
+                            up, down, left, right = False, True, False, False
                 for event in pygame.event.get():
                     if event.type == QUIT:
                         pygame.quit()
@@ -160,35 +228,36 @@ while True:
                     if button_exit.click(event):
                         gamemenu = True
                         ingame = False
-                    if event.type == KEYDOWN:
-                        if event.key == K_SPACE:
-                            operation = SpeechEngine.get_operation(train_set_x, train_set_y)
-                            if operation == 'none':
-                                pass
-                            elif operation == 'trai':
-                                player.go_left()
-                                if game_board.can_move(player.col - 1, player.row):
-                                    player.col -= 1
-                                    move_queue = 25
-                                    up, down, left, right = False, False, True, False
-                            elif operation == 'phai':
-                                player.go_right()
-                                if game_board.can_move(player.col + 1, player.row):
-                                    player.col += 1
-                                    move_queue = 25
-                                    up, down, left, right = False, False, False, True
-                            elif operation == 'len':
-                                player.go_up()
-                                if game_board.can_move(player.col, player.row - 1):
-                                    player.row -= 1
-                                    move_queue = 40
-                                    up, down, left, right = True, False, False, False
-                            elif operation == 'xuong':
-                                player.go_down()
-                                if game_board.can_move(player.col, player.row + 1):
-                                    player.row += 1
-                                    move_queue = 40
-                                    up, down, left, right = False, True, False, False
+                    if mode == 1:
+                        if event.type == KEYDOWN:
+                            if event.key == K_SPACE:
+                                operation = SpeechEngine.get_operation(train_set_x, train_set_y)
+                                if operation == 'none':
+                                    pass
+                                elif operation == 'trai':
+                                    player.go_left()
+                                    if game_board.can_move(player.col - 1, player.row):
+                                        player.col -= 1
+                                        move_queue = 25
+                                        up, down, left, right = False, False, True, False
+                                elif operation == 'phai':
+                                    player.go_right()
+                                    if game_board.can_move(player.col + 1, player.row):
+                                        player.col += 1
+                                        move_queue = 25
+                                        up, down, left, right = False, False, False, True
+                                elif operation == 'len':
+                                    player.go_up()
+                                    if game_board.can_move(player.col, player.row - 1):
+                                        player.row -= 1
+                                        move_queue = 40
+                                        up, down, left, right = True, False, False, False
+                                elif operation == 'xuong':
+                                    player.go_down()
+                                    if game_board.can_move(player.col, player.row + 1):
+                                        player.row += 1
+                                        move_queue = 40
+                                        up, down, left, right = False, True, False, False
 
             if move_queue > 0:
                 player.move(up, down, left, right)
