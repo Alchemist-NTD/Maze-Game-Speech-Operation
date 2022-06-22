@@ -32,7 +32,7 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 
 **mode 2**
 
-[![Controller](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886054-0e59e198-8c45-43c1-a25d-aa60be0dda6f.mp4)
+[![Controller](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/175019803-1ce34595-6939-4ffd-b1e7-a09369165839.mp4)
 
 - Mọi hành động của Agent trong màn chơi sẽ chỉ được điều khiển bằng tiếng nói với các khẩu lệnh như **"Lên", "Xuống", "Trái", "Phải"**.
 - Để điều khiển bằng tiếng nói trong chế độ 1 (Thuật toán đơn giản), người chơi sẽ nhấn phím tắt **SPACE** để đọc khẩu lệnh. Nếu trong **1.5** giây sau khi nhấn **SPACE** người chơi không đọc khẩu lệnh nào thì Agent sẽ không có hành động.
