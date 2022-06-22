@@ -28,9 +28,10 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 [![Controller](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886054-0e59e198-8c45-43c1-a25d-aa60be0dda6f.mp4)
 
 - Mọi hành động của Agent trong màn chơi sẽ chỉ được điều khiển bằng tiếng nói với các khẩu lệnh như **"Lên", "Xuống", "Trái", "Phải"**.
-- Để điều khiển bằng tiếng nói, người chơi sẽ nhấn phím tắt **SPACE** để đọc khẩu lệnh. Nếu trong **1.5** giây sau khi nhấn **SPACE** người chơi không đọc khẩu lệnh nào thì Agent sẽ không có hành động.
+- Để điều khiển bằng tiếng nói trong chế độ 1 (Thuật toán đơn giản), người chơi sẽ nhấn phím tắt **SPACE** để đọc khẩu lệnh. Nếu trong **1.5** giây sau khi nhấn **SPACE** người chơi không đọc khẩu lệnh nào thì Agent sẽ không có hành động.
+- - Để điều khiển bằng tiếng nói trong chế độ 2 (Thuật toán học sâu), người chơi sẽ chỉ cần đọc khẩu lệnh và đợi Agent thực hiện xong. Người chơi không đọc khẩu lệnh nào thì Agent sẽ không có hành động, một số hành vi của Agent sẽ bị trễ nếu đọc quá nhanh.
 - Hành vi của Agent có thể không được như mong muốn khi người chơi đọc khẩu lệnh, điều này phụ thuộc vào nhiều yếu tố: Môi trường có nhiều tiếng ồn - tạp âm, môi trường thu âm không đủ tốt (chất lượng của microphone, âm lượng chỉnh trên máy tính), Ngữ nghĩa logic của Speech Engine cũng chưa đủ tổng quát để có thể cover được hết toàn bộ âm sắc, năng lượng của toàn bộ loài người.
-- Sau **1.5 giây recorded**, Speech Engine sẽ xử lý khẩu lệnh được nhận vào để đưa ra quyết định hành vi cho Agent.
+- Sau **1.5 giây recorded** với chế độ 1 hoặc **Real Time** với chế độ 2, Speech Engine sẽ xử lý khẩu lệnh được nhận vào để đưa ra quyết định hành vi cho Agent.
 
 ## 3. Mô tả về dữ liệu
 
@@ -39,6 +40,7 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 - Dữ liệu huấn luyện được lấy trực tiếp từ các file thu và gán nhãn khẩu lệnh âm thanh của 10 người khác nhau trong course Xử Lý tiếng nói. Các khẩu lệnh ban đầu gồm có tập hợp các từ đơn: "lên", "xuống", "trái", "phải", "A", "B", "nhảy", "bắn", tuy nhiên trong phạm vi dự án này chỉ trích lọc để sử dụng với 4 từ đơn là **"Lên", "Xuống", "Trái", "Phải"**.
 - Tổng kích cỡ của dữ liệu là 4811 mẫu, tuy nhiên, để áp dụng vào thực tế ứng dụng thì không thể dùng toàn bộ các mẫu mà chỉ sử dụng một số lượng mẫu nhất định để đảm bảo hiệu suất xử lý cho ứng dụng (nearly Realtime).
 - Dữ liệu trong quá trình chạy ứng dụng sẽ được thu trong 1.5 giây và qua các bước xử lý giống như xử lý trên notebook để trả về khẩu lệnh hành vi cho Agent.
+- Dữ liệu cho phần huấn luyện mô hình mạng neurals sẽ được padding zeros đều vào đầu và đuôi tín hiệu. Tương tự với phần nhận diện.
 
 ## 4. Mô tả phương pháp sử dụng trong core (Speech Engine)
 
@@ -97,7 +99,7 @@ $H_m(k) = 0$ if $k > f(m + 1)$
 - Lấy trung bình biên độ của tín hiệu ban đầu trước khi DFFT để làm đặc trưng thứ 13.
 - Sử dụng phương pháp normalize bằng Ceptrals mean Vector Normalization (CMVN) bằng cách lấy 13 hệ số trừ đi trung bình của chúng.
 - Tiếp tục lấy Gradient cấp 2 và cấp 3 của Vector có 13 hệ số ban đầu, ta sẽ có mẫu cuối cùng là ma trận có kích cỡ $(39, d)$ với $d$ phụ thuộc vào độ dài ngắn của mẫu tín hiệu được đưa vào. Ở đây có một điều đáng chú ý trong thực nghiệm là nếu normalize bằng Z-score sẽ cho kết quả không tốt trong phân loại.
-- Vì chiều của các ma trận hệ số MFCCs sẽ khác nhau ở số cột nên ta sẽ không thể đưa vào mạng neuron trực tiếp. Trong quá trình thực nghiệm, quả thực có 2 phương pháp đã được triển khai thử là đệm các zeros vào trước và sau tín hiệu để các tín hiệu có cùng độ dài như nhau tuy nhiên sẽ làm kết quả trở nên rất kém, cách làm khác là đệm zeros vào đằng sau chiều thời gian của 39 hệ số MFCCs cũng cho kết quả rất tồi. CMVN là phương pháp Normalize tốt nhất trong dự án này.
+- Vì chiều của các ma trận hệ số MFCCs sẽ khác nhau ở số cột nên ta sẽ không thể đưa vào mạng neuron trực tiếp. CMVN là phương pháp Normalize tốt nhất trong dự án này.
 
 **Tóm lại quy trình: speech signal $\rightarrow$ spectrum $\rightarrow$ mel-filter $\rightarrow$ cepstral**
 
@@ -151,7 +153,24 @@ weighted avg       0.93      0.92      0.92      1203
 
 Nhận xét: Nhìn chung ta sẽ đánh đổi chất lượng có thể chấp nhận được trong bài toán phân loại để lấy được một thời gian xử lý phù hợp với thực tế ứng dụng.
 
-### c. Đưa Speech Engine vào ứng dụng
+### c. Sử dụng phương pháp phân loại bằng mạng học sâu
+- Kiến trúc mạng: tầng đầu vào ứng với phần đệm tổng quát của tín hiệu sau khi lấy được MFCCs coefficients. (1482 nút)
+- Các tầng fully connected bên trong là 512 - ReLu; dropout 0.3; 256 ReLu; 256 ReLu; dropout 0.3; 128 ReLu; 4 Softmax
+- Hàm lỗi là hàm Categorical CrossEntropy và Optimizer method là Adam (Ada Grad Momentum)
+
+Kết quả của mạng học sâu cho thấy nó cực kỳ mạnh mẽ và phù hợp với dự án khi thực hiện realtime recognition
+              precision    recall  f1-score   support
+
+           0       0.97      0.98      0.98       265
+           1       0.97      0.97      0.97       228
+           2       1.00      1.00      1.00       247
+           3       1.00      1.00      1.00       223
+
+    accuracy                           0.99       963
+   macro avg       0.99      0.99      0.99       963
+weighted avg       0.99      0.99      0.99       963
+
+### d. Đưa Speech Engine vào ứng dụng
 - Control flow của Speech Engine sẽ theo một quy trình chuẩn như sau:
 
 ![SPEECH ENGINE FLOW ACTIONs](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png)
