@@ -213,6 +213,10 @@ weighted avg       0.99      0.99      0.99       963
 
 ## **Chạy thực nghiệm ứng dụng**
 
+**Mode 1**
+
 [![Ingame Experience mode 1](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886315-f3346167-b5b3-4ac5-93c4-9a2656ed881e.mp4)
+
+**Mode 2**
 
 [![Ingame Experience mode 2](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886315-f3346167-b5b3-4ac5-93c4-9a2656ed881e.mp4)
