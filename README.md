@@ -196,9 +196,11 @@ weighted avg       0.99      0.99      0.99       963
 - Control flow của Speech Engine sẽ theo một quy trình chuẩn như sau:
 
 **Mode 1**
+
 ![SPEECH ENGINE FLOW ACTIONs in mode 1](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png)
 
 **Mode 2**
+
 ![SPEECH ENGINE FLOW ACTIONs in mode 2](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow_2.png)
 
 ## 5. Kết luận
