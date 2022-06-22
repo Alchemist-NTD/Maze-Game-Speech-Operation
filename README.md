@@ -2,7 +2,7 @@
 
 **Nhóm 99:**
 
-**Thành viên: Nguyễn Thành Duy - 17021221**
+**Thành viên: Nguyễn Thành Duy**
 
 **Nhiệm vụ: Triển khai toàn bộ dự án**
 
