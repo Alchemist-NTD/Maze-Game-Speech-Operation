@@ -27,9 +27,11 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 ### b. Nguyên Lý Điều khiển Agent
 
 **mode 1**
+
 [![Controller](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886054-0e59e198-8c45-43c1-a25d-aa60be0dda6f.mp4)
 
 **mode 2**
+
 [![Controller](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886054-0e59e198-8c45-43c1-a25d-aa60be0dda6f.mp4)
 
 - Mọi hành động của Agent trong màn chơi sẽ chỉ được điều khiển bằng tiếng nói với các khẩu lệnh như **"Lên", "Xuống", "Trái", "Phải"**.
