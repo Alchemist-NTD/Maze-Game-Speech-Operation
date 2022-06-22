@@ -184,9 +184,11 @@ weighted avg       0.99      0.99      0.99       963
 ### d. Đưa Speech Engine vào ứng dụng
 - Control flow của Speech Engine sẽ theo một quy trình chuẩn như sau:
 
+**Mode 1**
 ![SPEECH ENGINE FLOW ACTIONs in mode 1](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png)
 
-![SPEECH ENGINE FLOW ACTIONs in mode 2](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png)
+**Mode 2**
+![SPEECH ENGINE FLOW ACTIONs in mode 2]([https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow_2.png))
 
 ## 5. Kết luận
 - Speech Engine đã hoạt động một cách khá tốt trong các lần chạy thử ứng dụng chứng tỏ các sapmles điển hình ở mode 1 có tính tổng quát tốt trong thực tiễn.
