@@ -26,11 +26,15 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 
 ### b. Nguyên Lý Điều khiển Agent
 
+**mode 1**
+[![Controller](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886054-0e59e198-8c45-43c1-a25d-aa60be0dda6f.mp4)
+
+**mode 2**
 [![Controller](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886054-0e59e198-8c45-43c1-a25d-aa60be0dda6f.mp4)
 
 - Mọi hành động của Agent trong màn chơi sẽ chỉ được điều khiển bằng tiếng nói với các khẩu lệnh như **"Lên", "Xuống", "Trái", "Phải"**.
 - Để điều khiển bằng tiếng nói trong chế độ 1 (Thuật toán đơn giản), người chơi sẽ nhấn phím tắt **SPACE** để đọc khẩu lệnh. Nếu trong **1.5** giây sau khi nhấn **SPACE** người chơi không đọc khẩu lệnh nào thì Agent sẽ không có hành động.
-- - Để điều khiển bằng tiếng nói trong chế độ 2 (Thuật toán học sâu), người chơi sẽ chỉ cần đọc khẩu lệnh và đợi Agent thực hiện xong. Người chơi không đọc khẩu lệnh nào thì Agent sẽ không có hành động, một số hành vi của Agent sẽ bị trễ nếu đọc quá nhanh.
+- Để điều khiển bằng tiếng nói trong chế độ 2 (Thuật toán học sâu), người chơi sẽ chỉ cần đọc khẩu lệnh và đợi Agent thực hiện xong. Người chơi không đọc khẩu lệnh nào thì Agent sẽ không có hành động, một số hành vi của Agent sẽ bị trễ nếu đọc quá nhanh.
 - Hành vi của Agent có thể không được như mong muốn khi người chơi đọc khẩu lệnh, điều này phụ thuộc vào nhiều yếu tố: Môi trường có nhiều tiếng ồn - tạp âm, môi trường thu âm không đủ tốt (chất lượng của microphone, âm lượng chỉnh trên máy tính), Ngữ nghĩa logic của Speech Engine cũng chưa đủ tổng quát để có thể cover được hết toàn bộ âm sắc, năng lượng của toàn bộ loài người.
 - Sau **1.5 giây recorded** với chế độ 1 hoặc **Real Time** với chế độ 2, Speech Engine sẽ xử lý khẩu lệnh được nhận vào để đưa ra quyết định hành vi cho Agent.
 
