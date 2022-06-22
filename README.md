@@ -116,7 +116,7 @@ $H_m(k) = 0$ if $k > f(m + 1)$
 - Tiếp tục lấy Gradient cấp 2 và cấp 3 của Vector có 13 hệ số ban đầu, ta sẽ có mẫu cuối cùng là ma trận có kích cỡ $(39, d)$ với $d$ phụ thuộc vào độ dài ngắn của mẫu tín hiệu được đưa vào. Ở đây có một điều đáng chú ý trong thực nghiệm là nếu normalize bằng Z-score sẽ cho kết quả không tốt trong phân loại.
 - Vì chiều của các ma trận hệ số MFCCs sẽ khác nhau ở số cột nên ta sẽ không thể đưa vào mạng neuron trực tiếp. CMVN là phương pháp Normalize tốt nhất trong dự án này.
 
-**Tóm lại quy trình: speech signal $\rightarrow$ spectrum $\rightarrow$ mel-filter $\rightarrow$ cepstral**
+**Tóm lại quy trình: $\text{speech signal} \rightarrow text{spectrum} \rightarrow text{mel-filter} \rightarrow text{cepstral}$**
 
 ### b. Sử dụng phương pháp phân loại Dynamic Time Warping
 
