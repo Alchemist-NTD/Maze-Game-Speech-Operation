@@ -147,7 +147,7 @@ while True:
                 if player.is_end:
                     ingame = False
                     gamemenu = True
-                if player.col == 23 and player.row == 14:
+                if (player.col == 23 and player.row == 14) or (player.col == 11 and player.row == 14):
                     player.terminated()
                     move_queue = 10
 
