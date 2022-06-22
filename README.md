@@ -59,7 +59,7 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 
 **mode 2**
 
-[![Speach Engine](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.png)](https://www.youtube.com/watch?v=ZdeAOv02dZU)
+[![Speach Engine](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.png)](https://www.youtube.com/watch?v=_YcUxt5j_p0)
 
 ### a. Trong nghiên cứu notebook
 #### a.1. Xử lý tín hiệu âm thanh
@@ -77,7 +77,7 @@ $$Frame Size = 2048$$
 $$Hop Size = 512$$
 
 #### a.2. Trích chọn đặc trưng MFCCs
-**Code baseline của phần này nằm trong file DTW_Validation.ipynb tại thư mục ../Material/**
+**Code baseline của phần này nằm trong file DTW_Validation.ipynb hoặc NN_Validation.ipynb tại thư mục ../Material/**
 
 - Đầu tiên ta sẽ lấy tín hiệu ban đầu để scale lại về center, sau đó sẽ làm dẹt lại 2 đầu bằng cách nhân tín hiệu với hàm cửa sổ hann.
 - Biến đổi tín hiệu thành phổ Spectrum bằng Discrete Fast Fourier Transform, Spectrum có 2 chiều là tần số $Hz$ và biên độ phổ $dB$
