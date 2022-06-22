@@ -22,6 +22,7 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 - Agent không thể đi qua chướng ngại vật là những bức tường bằng gạch.
 - Agent phải tìm những con đường dẫn tới đích để có thể chiến thắng màn chơi, trong đó, có những con đường sẽ dẫn tới ngõ cụt.
 - Người chơi có thể chọn màn chơi theo ý muốn theo mức độ khó tăng dần.
+- Người chơi có thể chọn 1 trong 2 chế độ chơi, tuy nhiên chế độ 2 nhận diện tiếng nói trong realtime có phần chưa được ổn định.
 
 ### b. Nguyên Lý Điều khiển Agent
 
@@ -38,11 +39,15 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 [![Data Description](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886123-281ee8cd-4220-4c64-a924-8bf795f99101.mp4)
 
 - Dữ liệu huấn luyện được lấy trực tiếp từ các file thu và gán nhãn khẩu lệnh âm thanh của 10 người khác nhau trong course Xử Lý tiếng nói. Các khẩu lệnh ban đầu gồm có tập hợp các từ đơn: "lên", "xuống", "trái", "phải", "A", "B", "nhảy", "bắn", tuy nhiên trong phạm vi dự án này chỉ trích lọc để sử dụng với 4 từ đơn là **"Lên", "Xuống", "Trái", "Phải"**.
-- Tổng kích cỡ của dữ liệu là 4811 mẫu, tuy nhiên, để áp dụng vào thực tế ứng dụng thì không thể dùng toàn bộ các mẫu mà chỉ sử dụng một số lượng mẫu nhất định để đảm bảo hiệu suất xử lý cho ứng dụng (nearly Realtime).
-- Dữ liệu trong quá trình chạy ứng dụng sẽ được thu trong 1.5 giây và qua các bước xử lý giống như xử lý trên notebook để trả về khẩu lệnh hành vi cho Agent.
+- Tổng kích cỡ của dữ liệu là 4811 mẫu, tuy nhiên, để áp dụng vào thực tế ứng dụng thì không thể dùng toàn bộ các mẫu mà chỉ sử dụng một số lượng mẫu nhất định để đảm bảo hiệu suất xử lý cho ứng dụng trong chế độ 1 (DTW).
+- Với chế độ 2 (Dùng mạng học sâu) thì ta chỉ cần huấn luyện bộ trong số rồi save checkpoint với keras.
+- Dữ liệu trong quá trình chạy ứng dụng ở chế độ 1 sẽ được thu trong 1.5 giây và qua các bước xử lý giống như xử lý trên notebook DTW để trả về khẩu lệnh hành vi cho Agent.
+- Dữ liệu trong quá trình chạy ứng dụng ở chế độ 2 sẽ được thu realtime và qua các bước xử lý giống như xử lý trên notebook NN để trả về khẩu lệnh hành vi cho Agent.
 - Dữ liệu cho phần huấn luyện mô hình mạng neurals sẽ được padding zeros đều vào đầu và đuôi tín hiệu. Tương tự với phần nhận diện.
 
 ## 4. Mô tả phương pháp sử dụng trong core (Speech Engine)
+
+[![Speach Engine](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.png)](https://www.youtube.com/watch?v=ZdeAOv02dZU)
 
 [![Speach Engine](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.png)](https://www.youtube.com/watch?v=ZdeAOv02dZU)
 
@@ -104,6 +109,9 @@ $H_m(k) = 0$ if $k > f(m + 1)$
 **Tóm lại quy trình: speech signal $\rightarrow$ spectrum $\rightarrow$ mel-filter $\rightarrow$ cepstral**
 
 ### b. Sử dụng phương pháp phân loại Dynamic Time Warping
+
+**Code baseline của phần này nằm trong file DTW_Validation.ipynb tại thư mục ../Material/**
+
 - Kích cỡ của bộ từ vựng phân loại là nhỏ nên Dynamic Time Warping là một phương pháp tốn ít chi phí thực hiện về thời gian và tinh chỉnh, kiểm định chất lượng.
 - Có thể thấy rõ ràng trong lúc trích chọn 39 MFCCs Coefficient, các samples có thể không có cùng kích cỡ về chiều thời gian giống như nhau thậm chí ngay cả trong cùng một lớp. Ta không thể coi mọi thời gian trong đặc trưng tín hiệu có ảnh hưởng như nhau, không thể tính trực tiếp bằng norm L2. Dẫn đến một phương pháp để align từng điểm rời rạc của 2 tín hiệu, đầu ra của phương pháp này có thể là dạng 1 vector (each in 39s) hoặc quy đổi trực tiếp về L2. Tức là khi thực hiện Dynamic Time Warping, ta sẽ coi mỗi điểm dữ liệu trên 2 trục alignment là một điểm có 39s chiều ứng với 39 hệ số MFCCs.
 
@@ -154,6 +162,9 @@ weighted avg       0.93      0.92      0.92      1203
 Nhận xét: Nhìn chung ta sẽ đánh đổi chất lượng có thể chấp nhận được trong bài toán phân loại để lấy được một thời gian xử lý phù hợp với thực tế ứng dụng.
 
 ### c. Sử dụng phương pháp phân loại bằng mạng học sâu
+
+**Code baseline của phần này nằm trong file NN_Validation.ipynb tại thư mục ../Material/**
+
 - Kiến trúc mạng: tầng đầu vào ứng với phần đệm tổng quát của tín hiệu sau khi lấy được MFCCs coefficients. (1482 nút)
 - Các tầng fully connected bên trong là 512 - ReLu; dropout 0.3; 256 ReLu; 256 ReLu; dropout 0.3; 128 ReLu; 4 Softmax
 - Hàm lỗi là hàm Categorical CrossEntropy và Optimizer method là Adam (Ada Grad Momentum)
@@ -173,15 +184,20 @@ weighted avg       0.99      0.99      0.99       963
 ### d. Đưa Speech Engine vào ứng dụng
 - Control flow của Speech Engine sẽ theo một quy trình chuẩn như sau:
 
-![SPEECH ENGINE FLOW ACTIONs](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png)
+![SPEECH ENGINE FLOW ACTIONs in mode 1](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png)
+
+![SPEECH ENGINE FLOW ACTIONs in mode 2](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png)
 
 ## 5. Kết luận
-- Speech Engine đã hoạt động một cách khá tốt trong các lần chạy thử ứng dụng chứng tỏ các sapmles điển hình có tính tổng quát tốt trong thực tiễn.
-- Việc xây dựng một Speech Engine ứng dụng vào thực tế không dễ dàng, đặc biệt là với vấn đề realtime, đó cũng là một điểm thiếu sót trong ứng dụng. Ứng dụng vẫn cần một nút trạng thái để bắt đầu quy trình xử lý âm thanh.
-- Các threehold để phân biệt các lớp từ với một từ ngoại lai (outlier noises) thực sự không rõ ràng, mặc dù trong dự án đã áp dụng một số ngưỡng cụ thể tuy nhiên chúng không đem lại hiệu quả cao.
-- Các phương pháp không dựa trên samples thực dụng giống DTW như mô hình HMM, Mạng NN với các bộ trọng số của nhiều tầng ẩn, Transformer trong Compiler có thể hiệu quả hơn phương pháp được áp dụng trong dự án này, tuy nhiên do bounding time của dự án khá cấp thiết nên DTW vẫn là một lựa chọn thực thi tốn ít chi phí về thời gian thiết kế và lập trình.
+- Speech Engine đã hoạt động một cách khá tốt trong các lần chạy thử ứng dụng chứng tỏ các sapmles điển hình ở mode 1 có tính tổng quát tốt trong thực tiễn.
+- Speech Engine đã hoạt động cũng khá ổn định trong các lần chạy thử ứng dụng ở mode 2 chứng tỏ mạng học sâu có tính tổng quát tốt trong thực tiễn.
+- Việc xây dựng một Speech Engine ứng dụng vào thực tế không dễ dàng, đặc biệt là với vấn đề realtime, đó cũng là một điểm thiếu sót trong ứng dụng. Ứng dụng vẫn cần một cơ chế tách luồng Threading Dispatch để có thể hoạt động ổn định hơn ở chế độ realtime.
+- Các threehold để phân biệt các lớp từ với một từ ngoại lai (outlier noises) thực sự không rõ ràng, mặc dù trong dự án đã áp dụng một số ngưỡng cụ thể về cả xác suất lẫn khoảng cách tuy nhiên chúng không đem lại hiệu quả cao.
+- Các phương pháp không dựa trên samples thực dụng giống DTW như mô hình HMM, Mạng NN với các bộ trọng số của nhiều tầng ẩn, Transformer trong Compiler có thể hiệu quả hơn phương pháp được áp dụng trong dự án này.
 - Từ baseline của dự án có thể đưa ra những ý tưởng để áp dụng Speech Engine trong điều khiển Robotics, tuy nhiên dự án này sẽ chỉ là một phần nhỏ trong hướng phát triển đó vì khi thoát li khỏi môi trường mô phòng là các vấn đề về không gian, tầm nhìn vận hành ở môi trường thực tế của Robots.
 
 ## **Chạy thực nghiệm ứng dụng**
 
-[![Ingame Experience](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886315-f3346167-b5b3-4ac5-93c4-9a2656ed881e.mp4)
+[![Ingame Experience mode 1](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886315-f3346167-b5b3-4ac5-93c4-9a2656ed881e.mp4)
+
+[![Ingame Experience mode 2](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.jpg)](https://user-images.githubusercontent.com/76658438/174886315-f3346167-b5b3-4ac5-93c4-9a2656ed881e.mp4)
