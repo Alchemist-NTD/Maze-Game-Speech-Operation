@@ -149,6 +149,7 @@ Kết quả của lần traning với policy điểm rank như trên để chọ
 weighted avg       0.99      0.99      0.99      1203
 
 **Confussion matrix:**
+
 ![confussion matrix with all samples](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/conf_mat_1.png)
 
 Chọn ra 15 samples tốt nhất ở mỗi lớp từ để đánh giá lần 2:
@@ -198,7 +199,7 @@ weighted avg       0.99      0.99      0.99       963
 ![SPEECH ENGINE FLOW ACTIONs in mode 1](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png)
 
 **Mode 2**
-![SPEECH ENGINE FLOW ACTIONs in mode 2]([https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow.png](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow_2.png))
+![SPEECH ENGINE FLOW ACTIONs in mode 2](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/speech_engine_flow_2.png)
 
 ## 5. Kết luận
 - Speech Engine đã hoạt động một cách khá tốt trong các lần chạy thử ứng dụng chứng tỏ các sapmles điển hình ở mode 1 có tính tổng quát tốt trong thực tiễn.
