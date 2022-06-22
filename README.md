@@ -53,11 +53,11 @@ Dự án này có mục đích ứng dụng các lý thuyết, phương pháp tr
 
 ## 4. Mô tả phương pháp sử dụng trong core (Speech Engine)
 
-**Xử lý dữ liệu và mode 1**
+**Xử lý dữ liệu và mode 1: Dynamic Time Warping**
 
 [![Speach Engine](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.png)](https://www.youtube.com/watch?v=ZdeAOv02dZU)
 
-**mode 2**
+**Xử lý dữ liệu và mode 2: Mạng Học Sâu**
 
 [![Speach Engine](https://raw.githubusercontent.com/Warlock-NTD/Maze-Game-Speech-Operation/main/Material/preview.png)](https://www.youtube.com/watch?v=_YcUxt5j_p0)
 
