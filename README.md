@@ -1,11 +1,5 @@
 # Speech Recognition Application in Maze Game
 
-**Nhóm 99:**
-
-**Thành viên: Nguyễn Thành Duy**
-
-**Nhiệm vụ: Triển khai toàn bộ dự án**
-
 ## 1. Mô tả chung
 Dự án này có mục đích ứng dụng các lý thuyết, phương pháp trong Xử Lý Tiếng nói để xây dựng Engine nhận diện tiếng nói theo khẩu lệnh để điểu khiển nhân vật trong game Mê cung (Maze). Từ đó, đưa ra các ý tưởng nhiều triển vọng trong việc ứng dụng vào lĩnh vực Robotics.
 
